@@ -6,6 +6,7 @@ package ms3.challenge;
 
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Main {
     private static int totalRecords = 0;
@@ -21,8 +22,12 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.println("Input File: ");
         String inputFile = input.nextLine(); // get name of input csv file
-
-        Scanner csv = new Scanner(new File("./src/input/" + inputFile + ".csv")); // Access to input csv
+        Scanner csv = null;
+        try {
+            csv = new Scanner(new File("./src/input/" + inputFile + ".csv")); // Access to input csv
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Record badRecords = new Record("./src/output/" + inputFile + "-bad.csv"); // Access to -bad.csv file
         Record logs = new Record("./src/output/" + inputFile + ".log"); // Access to log file
         Database db = new Database(inputFile, "records"); // Access to database

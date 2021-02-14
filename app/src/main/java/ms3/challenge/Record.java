@@ -21,7 +21,6 @@ public class Record {
             file.createNewFile(); // Create the file if it does not exist
             this.writer = new FileWriter(file, true);
         } catch (IOException e) {
-            System.out.println("Error!");
             e.printStackTrace();
         }
     }
@@ -34,7 +33,6 @@ public class Record {
         try {
             this.writer.write(record + "\n");
         } catch (IOException e) {
-            System.out.println("Error!");
             e.printStackTrace();
         }
     }
