@@ -14,5 +14,4 @@ To run
 
 ## TODO
 
-1. Add end of run statistics log file
-2. Add overview of approach to README
+1. Add overview of approach to README
