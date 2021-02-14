@@ -16,4 +16,3 @@ To run
 
 1. Add end of run statistics log file
 2. Add overview of approach to README
-3. Try to figure out Maven SQLite and get java version working
