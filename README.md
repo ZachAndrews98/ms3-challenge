@@ -13,10 +13,8 @@ To run
 2. Run `gradle run`
 3. When prompted enter in the name of the csv file without the '.csv' extension
 4. Wait for execution to finish (will currently take several minutes)
-5. The database file can be found at `/app/<filename>.db`. All other output files can be found at `/app/src/output/`.
+5. All output files (.db,.csv,.log) can be found at `/app/src/output/`.
 
 ## TODO
 
-1. Refactor duplicate classes into single class
-2. Comment code
-3. Add overview of code to README
+1. Add overview of code to README
