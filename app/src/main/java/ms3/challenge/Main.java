@@ -21,7 +21,8 @@ public class Main {
     public static void main(String args[]) throws Exception {
         Scanner input = new Scanner(System.in);
         System.out.println("Input File: ");
-        String inputFile = input.nextLine(); // get name of input csv file
+        String inputFile = input.nextLine(); // Get name of input csv file
+        inputFile = inputFile.substring(0, inputFile.lastIndexOf('.')); // Remove extension if given
         Scanner csv = null;
         try {
             csv = new Scanner(new File("./src/input/" + inputFile + ".csv")); // Access to input csv
@@ -31,7 +32,7 @@ public class Main {
         Record badRecords = new Record("./src/output/" + inputFile + "-bad.csv"); // Access to -bad.csv file
         Record logs = new Record("./src/output/" + inputFile + ".log"); // Access to log file
         Database db = new Database(inputFile, "records"); // Access to database
-
+        csv.nextLine(); // Read the header line, not necessary
         while(csv.hasNext()) { // Read every line in csv file
             String line = csv.nextLine(); // Store next line broken into cells
             totalRecords++;
