@@ -4,9 +4,15 @@
 
 package ms3.challenge;
 
-import java.util.Scanner;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+
+import java.io.FileReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Main {
     private static int totalRecords = 0;
@@ -23,27 +29,33 @@ public class Main {
         System.out.println("Input File: ");
         String inputFile = input.nextLine(); // Get name of input csv file
         inputFile = inputFile.substring(0, inputFile.lastIndexOf('.')); // Remove extension if given
-        Scanner csv = null;
+        CSVReader csv = null;
+        CSVParser parser = new CSVParserBuilder()
+            .withSeparator(',')
+            .withIgnoreQuotations(false)
+            .build();
         try {
-            csv = new Scanner(new File("./src/input/" + inputFile + ".csv")); // Access to input csv
+            csv = new CSVReaderBuilder(new FileReader("./src/input/" + inputFile + ".csv")) // Access to input csv
+                        .withSkipLines(0)
+                        .withCSVParser(parser)
+                        .build();
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
         Record badRecords = new Record("./src/output/" + inputFile + "-bad.csv"); // Access to -bad.csv file
         Record logs = new Record("./src/output/" + inputFile + ".log"); // Access to log file
         Database db = new Database(inputFile, "records"); // Access to database
-        csv.nextLine(); // Read the header line, not necessary
-        while(csv.hasNext()) { // Read every line in csv file
-            String line = csv.nextLine(); // Store next line broken into cells
+        String[] nextRecord;
+        while((nextRecord = csv.readNext()) != null) { // Read every line in csv file
             totalRecords++;
             // Validate line
-            if(validateRecord(line.split(COMMAREGEX))) {
+            if(validateRecord(nextRecord)) {
                 // If valid, add to database
-                db.addRecord(line.split(COMMAREGEX));
+                db.addRecord(nextRecord);
                 successfulRecords++;
             } else {
                 // If not valid add to -bad.csv
-                badRecords.writeRecord(line);
+                badRecords.writeRecord(nextRecord);
                 failedRecords++;
             }
         }
@@ -64,6 +76,8 @@ public class Main {
      * @return true (valid record) or false (invalid record)
      */
     public static boolean validateRecord(String[] record) {
+        // for(String r : record)
+        //     System.out.println(r);
         if(record.length != 10) // Check if the line does not have 10 cells
             return false;
         for(String entry : record) // For every entry in the record

@@ -29,6 +29,18 @@ public class Record {
      * Write the supplied record to the file
      * @param record string to write to the file
      */
+    public void writeRecord(String[] record) {
+        try {
+            String line = "";
+            for(String item : record) {
+                line += item + ",";
+            }
+            this.writer.write(line + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void writeRecord(String record) {
         try {
             this.writer.write(record + "\n");
